@@ -10,7 +10,7 @@ BACKGROUND_COLOR: Tuple[int, int, int] = (26, 26, 26)
 BOID_COLOR: Tuple[int, int, int] = (248, 248, 248)
 
 # Boid Settings
-BOID_COUNT: int = 50
+BOID_COUNT: int = 1000
 
 screen = pygame.display.set_mode((800, 600), pygame.RESIZABLE)
 clock = pygame.time.Clock()
@@ -25,7 +25,7 @@ def create_flock() -> None:
 
     for _ in range(0, BOID_COUNT):
         new_boid = Boid(position=(width / 2, height / 2))
-        new_boid.acceleration = Vector2(uniform(0.1, 0.5), uniform(0.1, 0.5))
+        new_boid.acceleration = Vector2(uniform(0.01, 0.25), uniform(0.01, 0.25))
         flock.append(new_boid)
 
 
@@ -36,10 +36,8 @@ def check_bounds() -> None:
     width, height = screen.get_size()
     
     for boid in flock:
-        if boid.position.x < 0.0 or boid.position.y < 0.0:
-            boid.position = Vector2(0.0, 0.0)
-            boid.velocity = Vector2(0.0, 0.0)
-        elif boid.position.x > width or boid.position.y > height:
+        x, y = boid.position
+        if x < 0.0 or x > width or y < 0.0 or y > height:
             boid.position = Vector2(0.0, 0.0)
             boid.velocity = Vector2(0.0, 0.0)
 
